@@ -7,8 +7,6 @@ import javax.persistence.Persistence;
 
 public class PersistenceUtil {
 
-
-
     private static EntityManagerFactory emFactory = null;
     private static ThreadLocal<EntityManager> threadLocalEntityManager = new ThreadLocal<>();
     private static ThreadLocal<EntityTransaction> threadLocalTransaction = new ThreadLocal<>();
