@@ -11,14 +11,14 @@ public class UserServiceImplTest {
     @Test
     public void createUser() {
         UserService userService = new UserServiceImpl();
-        User user = new User("James", "james007", "qwerty007", "bond@mi6.co.uk");
+        User user = new User("", "james007", "qwerty007", "bond@mi6.co.uk");
         userService.create(user);
     }
 
     @Test
     public void getUserByUsername() {
         UserService userService = new UserServiceImpl();
-        User user = userService.getByUsername("James");
+        User user = userService.getByUsername("Jamess");
         System.out.println("user = " + user);;
     }
 }

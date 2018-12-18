@@ -6,21 +6,21 @@ import com.coreteka.entities.User;
 import com.coreteka.service.UserService;
 import com.coreteka.util.PersistenceUtil;
 
+import java.util.List;
+
 
 public class UserServiceImpl implements UserService {
 
     @Override
-    public User create(User user) {
+    public void create(User user) {
 
         UserDAO userDAO = new UserDAOImpl();
 
         PersistenceUtil.beginTransaction();
 
-        user = userDAO.create(user);
+        userDAO.create(user);
 
         PersistenceUtil.commitTransaction();
-
-        return user;
     }
 
     @Override
@@ -38,6 +38,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAll(){
+
+        UserDAO userDAO = new UserDAOImpl();
+
+        PersistenceUtil.beginTransaction();
+
+        List<User> allUsers = userDAO.getAllUsers();
+
+        PersistenceUtil.commitTransaction();
+
+        return allUsers;
+    }
+
+    @Override
     public User update(User user) {
 
         UserDAO userDAO = new UserDAOImpl();
@@ -49,5 +63,19 @@ public class UserServiceImpl implements UserService {
         PersistenceUtil.commitTransaction();
 
         return updatedUser;
+    }
+
+    @Override
+    public void delete(String username){
+
+        UserDAO userDAO = new UserDAOImpl();
+
+        PersistenceUtil.beginTransaction();
+
+        User existedUser = getByUsername(username);
+
+        userDAO.delete(existedUser);
+
+        PersistenceUtil.commitTransaction();
     }
 }

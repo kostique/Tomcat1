@@ -24,7 +24,17 @@ public class CreatedUserServlet extends HttpServlet {
         user.setPassword(request.getParameter("password"));
         user.setEmail(request.getParameter("email"));
 
-        userService.create(user);
+        try {
+            userService.create(user);
+        }catch (javax.persistence.PersistenceException pe){
+            PrintWriter out = response.getWriter();
+            response.setContentType("text/html");
+            out.println("<html><body><h3>Could not create user.</h3>");
+            out.println("<a href='home.html'>Back to main menu</a>");
+            out.println("</body></html>");
+            out.close();
+            return;
+        }
 
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");

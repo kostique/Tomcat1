@@ -13,11 +13,11 @@ public class MainServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
         out.println("<html><body><h1>User database</h1><ul style=\"list-style-type:none\">");
-        out.println("<li><a href='createUser.html' >Create user</a></li>");
-        out.println("<li><a href='showUser.html' >Get user by username</a></li>");
-        out.println("<li><a href='showUsers.html' >Get all users</a></li>");
-        out.println("<li><a href='updateUser.html' >Update user by username</a></li>");
-        out.println("<li><a href='deleteUser.html' >Delete user by username</a></li>");
+        out.println("<br><li><a href='createUser.html' >Create user</a></li>");
+        out.println("<br><li><a href='showUser.html' >Get user by username</a></li>");
+        out.println("<br><li><a href='showUsers.html' >Get all users</a></li>");
+        out.println("<br><li><a href='updateUser.html' >Update user by username</a></li>");
+        out.println("<br><li><a href='deleteUser.html' >Delete user by username</a></li>");
         out.println("</ul></body></html>");
         out.close();
     }

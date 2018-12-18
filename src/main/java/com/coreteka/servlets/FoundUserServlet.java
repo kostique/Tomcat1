@@ -17,12 +17,26 @@ public class FoundUserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserService userService = new UserServiceImpl();
+
         String username = request.getParameter("username");
-        User user = userService.getByUsername(username);
+
+        User user;
+
+        try {
+            user = userService.getByUsername(username);
+        } catch (javax.persistence.NoResultException nre){
+            PrintWriter out = response.getWriter();
+            response.setContentType("text/html");
+            out.println("<html><body><h3>Could not find user with username: " + username + "</h3>");
+            out.println("<a href='home.html'>Back to main menu</a>");
+            out.println("</body></html>");
+            out.close();
+            return;
+        }
 
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
-        out.println("<html><body><h3>  Information on "+ username +" </h3>");
+        out.println("<html><body><h3>  Information on "+ username +": </h3>");
 
         out.println(user.toString());
         out.println("<br><br>");
