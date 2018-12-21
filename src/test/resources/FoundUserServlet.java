@@ -1,5 +1,3 @@
-package com.coreteka.servlets;
-
 import com.coreteka.entities.User;
 import com.coreteka.service.UserService;
 import com.coreteka.service.impl.UserServiceImpl;
@@ -12,24 +10,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "CreatedUserServlet", urlPatterns = "/userCreated.html")
-public class CreatedUserServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+@WebServlet(name = "FoundUserServlet", urlPatterns = "/userFound.html")
+public class FoundUserServlet extends HttpServlet {
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserService userService = new UserServiceImpl();
-        User user = new User();
 
-        user.setUsername(request.getParameter("username"));
-        user.setLogin(request.getParameter("login"));
-        user.setPassword(request.getParameter("password"));
-        user.setEmail(request.getParameter("email"));
+        String username = request.getParameter("username");
+
+        User user;
 
         try {
-            userService.create(user);
-        }catch (javax.persistence.PersistenceException pe){
+            user = userService.getByUsername(username);
+        } catch (javax.persistence.NoResultException nre){//todo
+            nre.printStackTrace();
             PrintWriter out = response.getWriter();
             response.setContentType("text/html");
-            out.println("<html><body><h3>Could not create user.</h3>");
+            out.println("<html><body><h3>Could not find user with username: " + username + "</h3>");
             out.println("<a href='home.html'>Back to main menu</a>");
             out.println("</body></html>");
             out.close();
@@ -38,10 +35,12 @@ public class CreatedUserServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
-        out.println("<html><body><h3>User created successfully</h3>");
+        out.println("<html><body><h3>  Information on <font color = \"blue\">"+ username +": </font></h3>");
+
+        out.println(user.toString());
+        out.println("<br><br>");
         out.println("<a href='home.html'>Back to main menu</a>");
         out.println("</body></html>");
         out.close();
-
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserDAO {
     //create
-    void create(User user);
+    User create(User user);
 
     //read
     List<User> getAllUsers();
@@ -18,5 +18,7 @@ public interface UserDAO {
 
     //delete
     void delete(User user);
+
+    boolean isUserExist(String username);
 
 }

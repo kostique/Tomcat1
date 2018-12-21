@@ -1,5 +1,3 @@
-package com.coreteka.servlets;
-
 import com.coreteka.entities.User;
 import com.coreteka.service.UserService;
 import com.coreteka.service.impl.UserServiceImpl;

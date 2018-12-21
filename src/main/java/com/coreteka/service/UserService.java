@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
-    void create(User user);
+    User create(User user);
 
     User getByUsername(String name);
 
@@ -15,4 +15,7 @@ public interface UserService {
     User update(User user);
 
     void delete(String username);
+
+
+
 }

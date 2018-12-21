@@ -48,7 +48,6 @@ public class PersistenceUtil {
     public static void commitTransaction() {
 
         String committingCaller = (Thread.currentThread().getStackTrace()[3].toString());
-
         if (committingCaller.equals(threadLocalCaller.get())){
             threadLocalTransaction.get().commit();
             threadLocalEntityManager.get().close();
