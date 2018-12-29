@@ -12,4 +12,10 @@
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/users/*</url-pattern>
     </servlet-mapping>
+
+
+
+
 </web-app>
+
+<!--//todo postman, curl, validation, filter, rename Exceptions, userForDelete, methods refactoring., POST template-->

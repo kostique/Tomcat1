@@ -1,13 +1,13 @@
 package com.coreteka.servlets;
 
 import com.coreteka.entities.User;
-import com.coreteka.exceptions.InvalidUserAttributesException;
-import com.coreteka.exceptions.InvalidUserAttributesNumberException;
 import com.coreteka.exceptions.UserAlreadyExistsException;
 import com.coreteka.exceptions.UserNotFoundException;
 import com.coreteka.service.UserService;
 import com.coreteka.service.impl.UserServiceImpl;
 import com.google.gson.Gson;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +21,10 @@ import java.util.List;
 public class UserServlet extends HttpServlet {
 
     private Gson gson = new Gson();
+    private static final Logger logger = LogManager.getLogger(UserServlet.class);
     private UserService userService = new UserServiceImpl();
 
-    //GET/Tomcat/users
+    //GET/Tomcat1/users
     //GET/Tomcat1/users/username
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pathInfo = request.getPathInfo();
@@ -33,82 +34,83 @@ public class UserServlet extends HttpServlet {
             return;
         }
         String[] splits = pathInfo.split("/");
-        if (splits.length != 2){
-            sendResponseMessage(response, 400, "Invalid resource path.");
+        if (!isPathInfoLengthValid(splits)){
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         String username = splits[1];
 
+        User user;
         try {
-            User user = userService.getByUsername(username);
+            user = userService.getByUsername(username);
             sendAsJson(response, user);
         } catch (UserNotFoundException unfe){
-            sendResponseMessage(response, 404, "User not found.");
+            logger.error("User could not be found.");
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 
-    //POST/Tomcat/users
+    //POST/Tomcat1/users
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         String pathInfo = request.getPathInfo();
         if(pathInfo == null || pathInfo.equals("/")){
+            User requestUser = getUserFromRequest(request);
             try {
-                User requestUser = getUserFromRequest(request);
                 User createdUser = userService.create(requestUser);
                 sendAsJson(response, createdUser);
-            } catch (UserAlreadyExistsException | InvalidUserAttributesNumberException | InvalidUserAttributesException bre){
-                sendResponseMessage(response, 400, bre.getMessage() );
+            } catch (UserAlreadyExistsException uaee){
+                logger.error("User already exists");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
         else {
-            sendResponseMessage(response, 400, "Invalid resource path.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
-    //PUT/Tomcat/users/username
+    //PUT/Tomcat1/users/username
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = getUsernameFromPath(request);
         if(username == null){
-            sendResponseMessage(response, 400, "Invalid resource path.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
-        User databaseUser;
-
+        User existingUser;
         try {
-            databaseUser = userService.getByUsername(username);
+           existingUser = userService.getByUsername(username);
         } catch (UserNotFoundException unfe){
-            sendResponseMessage(response, 404, "User not found.");
+            logger.error("User could not be found.");
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
         User requestUser = getUserFromRequest(request);
-        databaseUser.setLogin(requestUser.getLogin());
-        databaseUser.setPassword(requestUser.getPassword());
-        databaseUser.setEmail(requestUser.getEmail());
-
-        try {
-            userService.update(databaseUser);
-        }catch (InvalidUserAttributesException bre){
-            sendResponseMessage(response, 400, bre.getMessage());
-            return;
-        }
-        sendAsJson(response, databaseUser);
+        requestUser.setId(existingUser.getId());
+        userService.update(requestUser);
+        sendAsJson(response, requestUser);
 
     }
 
-    //DELETE/Tomcat/users/username
+    //DELETE/Tomcat1/users/username
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = getUsernameFromPath(request);
         if(username == null){
-            sendResponseMessage(response, 400, "Invalid resource path." );
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         try {
             userService.delete(username);
         } catch (UserNotFoundException unfe){
-            sendResponseMessage(response, 404, "User not found." );
+            logger.error("User could not be found");
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        sendResponseMessage(response, 200, "User deleted successfully." );
+        response.setContentType("text/html; charset=UTF-8");
+        response.setStatus(200);
+
+        PrintWriter out = response.getWriter();
+        out.print("User deleted successfully");
+        out.flush();
+
     }
 
     private void sendAsJson(HttpServletResponse response, Object obj) throws IOException {
@@ -121,42 +123,39 @@ public class UserServlet extends HttpServlet {
 
     private String getUsernameFromPath(HttpServletRequest request){
         String pathInfo = request.getPathInfo();
-
-        if(pathInfo == null || pathInfo.equals("/")){
+        if(isPathInfoEqualNullOrSlash(pathInfo)){
             return null;
         }
 
         String[] splits = pathInfo.split("/");
-
-        if(splits.length != 2){
+        if(isPathInfoLengthValid(splits)){
             return null;
         }
         return splits[1];
+    }
+
+    private boolean isPathInfoLengthValid(String[] splits) {
+        if (splits.length != 2) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isPathInfoEqualNullOrSlash(String pathInfo) {
+        if (pathInfo == null || pathInfo.equals("/")) {
+            return true;
+        }
+        return false;
     }
 
     private User getUserFromRequest(HttpServletRequest request) throws IOException {
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
-        int counter = 0;
         while ((line = reader.readLine()) != null) {
             builder.append(line);
-            counter++;
         }
-
-        if (counter != 4){
-            throw new InvalidUserAttributesNumberException("Invalid user attributes number");
-        }
-
         String data = builder.toString();
         return gson.fromJson(data, User.class);
-    }
-
-    private void sendResponseMessage(HttpServletResponse response, int sc, String message) throws IOException {
-        response.setContentType("text/html; charset=UTF-8");
-        response.setStatus(sc);
-        PrintWriter out = response.getWriter();
-        out.print(message);
-        out.flush();
     }
 }

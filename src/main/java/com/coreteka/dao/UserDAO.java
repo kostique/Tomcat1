@@ -17,7 +17,7 @@ public interface UserDAO {
     User update(User user);
 
     //delete
-    void delete(User user);
+    void delete(String username);
 
     boolean isUserExist(String username);
 

@@ -8,17 +8,17 @@ import javax.persistence.Persistence;
 public class PersistenceUtil {
 
     private static EntityManagerFactory emFactory = null;
-    private static ThreadLocal<EntityManager> threadLocalEntityManager = new ThreadLocal<>();
-    private static ThreadLocal<EntityTransaction> threadLocalTransaction = new ThreadLocal<>();
-    private static ThreadLocal<String> threadLocalCaller = new ThreadLocal<>();
+    private static EntityManager entityManager = null;
+    private static EntityTransaction transaction = null;
+    private static String caller;
 
 
 
     public static EntityManager getEntityManager() {
-        if (threadLocalEntityManager.get() == null || !threadLocalEntityManager.get().isOpen()) {
-            threadLocalEntityManager.set(getEntityManagerFactory().createEntityManager());
+        if (entityManager == null || !entityManager.isOpen()) {
+            entityManager = getEntityManagerFactory().createEntityManager();
         }
-        return threadLocalEntityManager.get();
+        return entityManager;
     }
 
 
@@ -36,11 +36,11 @@ public class PersistenceUtil {
 
 
     public static void beginTransaction() {
-        if (threadLocalCaller.get() == null) {
-            threadLocalCaller.set(Thread.currentThread().getStackTrace()[3].toString());
-            if (threadLocalTransaction.get() == null || !threadLocalTransaction.get().isActive())
-                threadLocalTransaction.set(getEntityManager().getTransaction());
-            threadLocalTransaction.get().begin();
+        if (caller == null) {
+            caller = Thread.currentThread().getStackTrace()[3].toString();
+            if (transaction == null || !transaction.isActive())
+                transaction = getEntityManager().getTransaction();
+            transaction.begin();
         }
     }
 
@@ -48,10 +48,16 @@ public class PersistenceUtil {
     public static void commitTransaction() {
 
         String committingCaller = (Thread.currentThread().getStackTrace()[3].toString());
-        if (committingCaller.equals(threadLocalCaller.get())){
-            threadLocalTransaction.get().commit();
-            threadLocalEntityManager.get().close();
-            threadLocalCaller.set(null);
+        if (committingCaller.equals(caller)){
+            transaction.commit();
+            entityManager.close();
+            caller = null;
         }
+    }
+
+    public static void rollbackTransaction(){
+        transaction.rollback();
+        entityManager.close();
+        caller = null;
     }
 }

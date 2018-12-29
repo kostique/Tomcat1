@@ -3,79 +3,71 @@ package com.coreteka.service.impl;
 import com.coreteka.dao.UserDAO;
 import com.coreteka.dao.impl.UserDAOImpl;
 import com.coreteka.entities.User;
+import com.coreteka.exceptions.InvalidUserAttributesException;
 import com.coreteka.exceptions.UserAlreadyExistsException;
-import com.coreteka.exceptions.UserCouldNotBeFoundException;
+import com.coreteka.exceptions.UserNotFoundException;
 import com.coreteka.service.UserService;
 import com.coreteka.util.PersistenceUtil;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 
 public class UserServiceImpl implements UserService {
 
+    private UserDAO userDAO = new UserDAOImpl();
+
     @Override
     public User create(User user) {
-
-        UserDAO userDAO = new UserDAOImpl();
-
+        userDAO = new UserDAOImpl();
         if(userDAO.isUserExist(user.getUsername())){
             throw new UserAlreadyExistsException("User already exists.");
         }
-
         PersistenceUtil.beginTransaction();
-
-        User createdUser = userDAO.create(user);
-
+        User createdUser;
+        createdUser = userDAO.create(user);
         PersistenceUtil.commitTransaction();
-
         return createdUser;
     }
 
     @Override
     public User getByUsername(String username){
-
-        UserDAO userDAO = new UserDAOImpl();
-
+        userDAO = new UserDAOImpl();
         if (!userDAO.isUserExist(username)) {
-            throw new UserCouldNotBeFoundException("User couldn't be found");
+            throw new UserNotFoundException("User couldn't be found");
         }
-        User user = userDAO.getByUsername(username);
-        return user;
+        return userDAO.getByUsername(username);
     }
 
     @Override
     public List<User> getAll(){
-
-        UserDAO userDAO = new UserDAOImpl();
-
-        List<User> allUsers = userDAO.getAllUsers();
-
-        return allUsers;
+        userDAO = new UserDAOImpl();
+        return userDAO.getAllUsers();
     }
 
     @Override
     public User update(User user) {
-
-        UserDAO userDAO = new UserDAOImpl();
-
+        userDAO = new UserDAOImpl();
         PersistenceUtil.beginTransaction();
-
         User updatedUser = userDAO.update(user);
 
-        PersistenceUtil.commitTransaction();
-
+        try{
+            PersistenceUtil.commitTransaction();
+        }catch (PersistenceException e) {
+            PersistenceUtil.rollbackTransaction();
+            throw new InvalidUserAttributesException("Invalid user attributes");
+        }
         return updatedUser;
     }
 
     @Override
     public void delete(String username){
-
-        UserDAO userDAO = new UserDAOImpl();
-
+        userDAO = new UserDAOImpl();
+        if (!userDAO.isUserExist(username)) {
+            throw new UserNotFoundException("User couldn't be found");
+        }
         PersistenceUtil.beginTransaction();
-
-        User existedUser = getByUsername(username);
-
+        userDAO.delete(username);
         PersistenceUtil.commitTransaction();
     }
 }

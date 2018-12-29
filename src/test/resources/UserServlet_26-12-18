@@ -1,0 +1,245 @@
+package com.coreteka.servlets;
+
+import com.coreteka.entities.User;
+import com.coreteka.exceptions.UserAlreadyExistsException;
+import com.coreteka.exceptions.UserNotFoundException;
+import com.coreteka.service.UserService;
+import com.coreteka.service.impl.UserServiceImpl;
+import com.google.gson.Gson;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+
+public class UserServlet extends HttpServlet {
+
+
+    private Gson gson = new Gson();
+    private static final Logger logger = LogManager.getLogger(UserServlet.class);
+
+
+    //GET/Tomcat1/users
+    //GET/Tomcat1/users/username
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        String pathInfo = request.getPathInfo();
+
+        System.out.println("pathInfo = " + pathInfo);
+
+        UserService userService = new UserServiceImpl();
+
+        User user;
+
+        if(pathInfo == null || pathInfo.equals("/")){
+
+            List<User> allUsers = userService.getAll();
+
+            sendAsJson(response, allUsers);
+
+            return;
+        }
+
+        String[] splits = pathInfo.split("/");
+
+        if(splits.length != 2) {
+
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+
+            return;
+        }
+
+        String username = splits[1];
+
+        try {
+
+            user = userService.getByUsername(username);
+
+            sendAsJson(response, user);
+
+        } catch (UserCouldNotBeFoundException ucnbfe){
+
+            logger.error("User could not be found");
+
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+
+        }
+
+    }
+
+    //POST/Tomcat1/users
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String pathInfo = request.getPathInfo();
+
+        if(pathInfo == null || pathInfo.equals("/")){
+
+            StringBuilder buffer = new StringBuilder();
+
+            BufferedReader reader = request.getReader();
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                buffer.append(line);
+            }
+
+            String data = buffer.toString();
+
+            User user = gson.fromJson(data, User.class);
+
+            UserService userService = new UserServiceImpl();
+
+            try {
+
+                User createdUser = userService.create(user);
+
+                sendAsJson(response, createdUser);
+
+            } catch (UserAlreadyExistsException uaee){
+
+                logger.error("User already exists");
+
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        }
+        else {
+
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+
+        }
+    }
+
+    //PUT/Tomcat1/users/username
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String pathInfo = request.getPathInfo();
+
+        if(pathInfo == null || pathInfo.equals("/")){
+
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+
+            return;
+        }
+
+        String[] splits = pathInfo.split("/");
+
+        if(splits.length != 2) {
+
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+
+            return;
+        }
+
+        String username = splits[1];
+
+        UserService userService = new UserServiceImpl();
+
+        User existingUser;
+
+        try {
+
+           existingUser = userService.getByUsername(username);
+
+        } catch (UserCouldNotBeFoundException ucnbfe){
+
+            logger.error("User coulsendAsJsond not be found");
+
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+
+            return;
+        }
+
+        StringBuilder buffer = new StringBuilder();
+
+        BufferedReader reader = request.getReader();
+
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            buffer.append(line);
+        }
+
+        String data = buffer.toString();
+
+        User updatingUser = gson.fromJson(data, User.class);
+
+        updatingUser.setId(existingUser.getId());
+
+        userService.update(updatingUser);
+
+        sendAsJson(response, updatingUser);
+
+    }
+
+    //DELETE/Tomcat1/users/username
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String pathInfo = request.getPathInfo();
+
+        if(pathInfo == null || pathInfo.equals("/")){
+
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        String[] splits = pathInfo.split("/");
+
+        if(splits.length != 2) {
+
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+
+            return;
+        }
+
+        String username = splits[1];
+
+        UserService userService = new UserServiceImpl();
+
+        try {
+
+            userService.delete(username);
+
+        } catch (UserCouldNotBeFoundException ucnbfe){
+
+            logger.error("User could not be found");
+
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+
+            return;
+        }
+
+        response.setContentType("text/html; charset=UTF-8");
+        response.setStatus(200);
+
+        PrintWriter out = response.getWriter();
+
+        out.print("User deleted successfully");
+        out.flush();
+
+    }
+
+    private void sendAsJson(HttpServletResponse response, Object obj) throws IOException {
+
+        response.setContentType("application/json");
+
+        String res = gson.toJson(obj);
+
+        PrintWriter out = response.getWriter();
+
+        out.print(res);
+
+        out.flush();
+    }
+
+    private boolean isPathInfoLengthValid(String pathInfo){
+
+    }
+}

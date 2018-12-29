@@ -1,11 +1,13 @@
 import com.coreteka.dao.UserDAO;
 import com.coreteka.dao.impl.UserDAOImpl;
 import com.coreteka.entities.User;
+import com.coreteka.exceptions.InvalidUserAttributesException;
 import com.coreteka.service.UserService;
 import com.coreteka.service.impl.UserServiceImpl;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
 
-
+import javax.persistence.PersistenceException;
 
 
 public class UserServiceImplTest {
@@ -13,14 +15,19 @@ public class UserServiceImplTest {
     @Test
     public void createUser() {
         UserService userService = new UserServiceImpl();
-        User user = new User("", "james007", "qwerty007", "bond@mi6.co.uk");
-        userService.create(user);
+        User user = new User("askor1", "james008", "qwerty008", "bond@mi46.co.uk");
+        try {
+            userService.create(user);
+        }catch (ConstraintViolationException e){
+            //System.out.println(e.getMessage());
+            throw new InvalidUserAttributesException("Invalid user attributes");
+        }
     }
 
     @Test
     public void getUserByUsername() {
         UserService userService = new UserServiceImpl();
-        User user = userService.getByUsername("Jamess");
+        User user = userService.getByUsername("James");
         System.out.println("user = " + user);;
     }
 
