@@ -21,6 +21,7 @@ public class UserRequestWrapper extends HttpServletRequestWrapper {
         while ((line = bufferedReader.readLine()) != null) {
             builder.append(line);
             builder.append(System.lineSeparator());
+            System.out.println("line = " + line);
         }
         body = builder.toString();
     }

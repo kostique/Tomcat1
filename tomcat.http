@@ -1,4 +1,4 @@
-GET http://localhost:8080/Tomcat/users/
+GET http://localhost:8080/Tomcat1/users/
 Accept: */*
 Cache-Control: no-cache
 
@@ -7,7 +7,7 @@ Cache-Control: no-cache
 <> 2018-12-28T050358.200.json
 ###
 
-GET http://localhost:8080/Tomcat/users/askor
+GET http://localhost:8080/Tomcat1/users/askor
 Accept: */*
 Cache-Control: no-cache
 
@@ -16,40 +16,46 @@ Cache-Control: no-cache
 ###
 
 
-POST http://localhost:8080/Tomcat/users/
+POST http://localhost:8080/Tomcat1/users/
 Accept: */*
 Cache-Control: no-cache
 
-{"username": "u1",
-   "login": "u1",
-      "password": "u1",
-         "email": "u1@u1.org"}
+{
+  "username": "u1",
+  "login": "u1",
+  "password": "u1",
+  "email": "u1@u1.org"
+}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
 ###
 
-PUT http://localhost:8080/Tomcat/users/u1
+PUT http://localhost:8080/Tomcat1/users/u1
 Accept: */*
 Cache-Control: no-cache
 
-{"username": "u1",
-   "login": "u2",
-      "password": "u2",
-         "email": "u2@u2.org"}
+{
+  "username": "u1",
+  "login": "u2",
+  "password": "u2",
+  "email": "u2@u2.org"
+}
 
 <> 2018-12-28T050742.200.json
 
 ###
 
-DELETE http://localhost:8080/Tomcat/users/u1
+DELETE http://localhost:8080/Tomcat1/users/u1
 Accept: */*
 Cache-Control: no-cache
 
-{"username": "u1",
-   "login": "u2",
-      "password": "u2",
-         "email": "u2@u2.org"}
+{
+  "username": "u1",
+  "login": "u2",
+  "password": "u2",
+  "email": "u2@u2.org"
+}
 
 <> 2018-12-28T050751.200.html
 <> 2018-12-28T050744.404.html
