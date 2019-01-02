@@ -1,35 +1,33 @@
 package com.coreteka.filters;
 
-import javax.servlet.ServletRequestWrapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 
 public class UserRequestWrapper extends HttpServletRequestWrapper {
 
-    public UserRequestWrapper(HttpServletRequest request) {
+    private String body;
+
+    UserRequestWrapper(HttpServletRequest request) {
         super(request);
     }
 
-    private BufferedReader reader;
+    void logRequest() throws IOException {
 
-    public void setReader() throws IOException {
-        reader = super.getRequest().getReader();
-    }
-
-    public void logRequest() throws IOException {
-        String line;
+        BufferedReader bufferedReader = super.getRequest().getReader();
         StringBuilder builder = new StringBuilder();
-        while ((line = reader.readLine()) != null) {
+        String line;
+
+        while ((line = bufferedReader.readLine()) != null) {
             builder.append(line);
+            builder.append(System.lineSeparator());
         }
-        System.out.println(builder.toString());
+        body = builder.toString();
     }
 
     @Override
     public BufferedReader getReader() throws IOException {
-        return reader;
+        return new BufferedReader(new StringReader(body));
     }
 }
 

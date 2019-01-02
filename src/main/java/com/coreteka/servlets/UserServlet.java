@@ -138,13 +138,14 @@ public class UserServlet extends HttpServlet {
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
+
         int counter = 0;
         while ((line = reader.readLine()) != null) {
             builder.append(line);
             counter++;
         }
 
-        if (counter != 4){
+        if (counter != 6){
             throw new InvalidUserAttributesNumberException("Invalid user attributes number");
         }
 
@@ -160,3 +161,5 @@ public class UserServlet extends HttpServlet {
         out.flush();
     }
 }
+
+//      reader.lines().forEach(System.out::println);
