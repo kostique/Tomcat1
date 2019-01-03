@@ -20,7 +20,7 @@ import java.util.List;
 
 public class UserServlet extends HttpServlet {
 
-    private Gson gson = new Gson();
+    private Gson gson = new Gson();//todo jackson
     private UserService userService = new UserServiceImpl();
 
     //GET/Tomcat/users
@@ -51,13 +51,19 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String pathInfo = request.getPathInfo();
+
+        PathException.check();
+        if (checkPath()) {
+
+        }
         if(pathInfo == null || pathInfo.equals("/")){
             try {
+                PathException.check();
                 User requestUser = getUserFromRequest(request);
                 User createdUser = userService.create(requestUser);
                 sendAsJson(response, createdUser);
-            } catch (UserAlreadyExistsException | InvalidUserAttributesNumberException | InvalidUserAttributesException bre){
-                sendResponseMessage(response, 400, bre.getMessage() );
+            } catch (UserAlreadyExistsException | InvalidUserAttributesNumberException | InvalidUserAttributesException bre) {
+                sendResponseMessage(response, 400, bre.getMessage());
             }
         }
         else {
@@ -78,7 +84,7 @@ public class UserServlet extends HttpServlet {
             databaseUser = userService.getByUsername(username);
         } catch (UserNotFoundException unfe){
             sendResponseMessage(response, 404, "User not found.");
-            return;
+            return;//todo
         }
         User requestUser = getUserFromRequest(request);
         databaseUser.setLogin(requestUser.getLogin());
@@ -97,7 +103,7 @@ public class UserServlet extends HttpServlet {
 
     //DELETE/Tomcat/users/username
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String username = getUsernameFromPath(request);
+        String username = getUsernameFromPath(request);//todo request params
         if(username == null){
             sendResponseMessage(response, 400, "Invalid resource path." );
             return;
@@ -106,7 +112,7 @@ public class UserServlet extends HttpServlet {
             userService.delete(username);
         } catch (UserNotFoundException unfe){
             sendResponseMessage(response, 404, "User not found." );
-            return;
+            return;//todo
         }
         sendResponseMessage(response, 200, "User deleted successfully." );
     }

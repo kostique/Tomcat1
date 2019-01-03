@@ -1,9 +1,10 @@
 package com.coreteka.dao.impl;
 
-import com.coreteka.entities.User;
 import com.coreteka.dao.UserDAO;
+import com.coreteka.entities.User;
 import com.coreteka.exceptions.InvalidUserAttributesException;
 import com.coreteka.util.PersistenceUtil;
+
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;

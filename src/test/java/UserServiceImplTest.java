@@ -29,12 +29,7 @@ public class UserServiceImplTest {
         UserService userService = new UserServiceImpl();
         User user = userService.getByUsername("James");
         System.out.println("user = " + user);;
-    }
-
-    @Test
-    public void some(){
         UserDAO userDAO = new UserDAOImpl();
-        //User user = userDAO.getByUsername("username154512164644");
-        System.out.println(((UserDAOImpl) userDAO).isUserExist("username1545121646442"));
+        userDAO.isUserExist("username1545121646442");
     }
 }
