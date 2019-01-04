@@ -2,16 +2,25 @@ package com.coreteka.dao.impl;
 
 import com.coreteka.dao.UserDAO;
 import com.coreteka.entities.User;
-import com.coreteka.exceptions.InvalidUserAttributesException;
+import com.coreteka.exceptions.DuplicateUserAttributeValueException;
+import com.coreteka.exceptions.InvalidUserAttributeValueException;
+import com.coreteka.exceptions.NullUserAttributeException;
 import com.coreteka.util.PersistenceUtil;
+
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 
 public class UserDAOImpl implements UserDAO {
+
+    @Override
+    public User getById(long id){
+        return PersistenceUtil.getEntityManager().find(User.class, id);
+    }
 
     @Override
     public User create(User user) {
@@ -20,7 +29,10 @@ public class UserDAOImpl implements UserDAO {
             createdUser = PersistenceUtil.getEntityManager().merge(user);
         } catch (PersistenceException e) {
             PersistenceUtil.rollbackTransaction();
-            throw new InvalidUserAttributesException("Invalid user attributes");
+            throw new DuplicateUserAttributeValueException("Duplicate user attribute value found.");
+        } catch (ConstraintViolationException e){
+            PersistenceUtil.rollbackTransaction();
+            throw new NullUserAttributeException("Null user attribute found.");
         }
         return createdUser;
     }
@@ -45,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
             updatedUser = PersistenceUtil.getEntityManager().merge(user);
         }catch (PersistenceException e) {
             PersistenceUtil.rollbackTransaction();
-            throw new InvalidUserAttributesException("Invalid user attributes");
+            throw new InvalidUserAttributeValueException("Invalid user attributes");
         }
         return updatedUser;
     }

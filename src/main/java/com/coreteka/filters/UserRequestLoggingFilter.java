@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-//@WebFilter(filterName = "UserLoggingFilter", servletNames = "UserServlet")
-public class UserLoggingFilter implements Filter {
+//@WebFilter(filterName = "UserRequestLoggingFilter", servletNames = "UserServlet")
+public class UserRequestLoggingFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws ServletException, IOException {

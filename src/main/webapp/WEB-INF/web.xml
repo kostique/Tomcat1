@@ -4,28 +4,46 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+    <!--<servlet>-->
+        <!--<servlet-name>UserServlet</servlet-name>-->
+        <!--<servlet-class>com.coreteka.servlets.UserServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>UserServlet</servlet-name>-->
+        <!--<url-pattern>/users/</url-pattern>-->
+    <!--</servlet-mapping>-->
+
     <servlet>
-        <servlet-name>UserServlet</servlet-name>
-        <servlet-class>com.coreteka.servlets.UserServlet</servlet-class>
+        <servlet-name>UsersGetPostServlet</servlet-name>
+        <servlet-class>com.coreteka.servlets.UsersGetPostServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>UserServlet</servlet-name>
+        <servlet-name>UsersGetPostServlet</servlet-name>
+        <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UsersGetPutDeleteServlet</servlet-name>
+        <servlet-class>com.coreteka.servlets.UsersGetPutDeleteServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UsersGetPutDeleteServlet</servlet-name>
         <url-pattern>/users/*</url-pattern>
     </servlet-mapping>
 
-
     <filter>
-        <filter-name>UserLoggingFilter</filter-name>
-        <filter-class>com.coreteka.filters.UserLoggingFilter</filter-class>
+        <filter-name>UserRequestLoggingFilter</filter-name>
+        <filter-class>com.coreteka.filters.UserRequestLoggingFilter</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>UserLoggingFilter</filter-name>
-        <servlet-name>UserServlet</servlet-name>
+        <filter-name>UserRequestLoggingFilter</filter-name>
+        <servlet-name>UsersGetPostServlet</servlet-name>
+        <servlet-name>UsersGetPutDeleteServlet</servlet-name>
     </filter-mapping>
-
-
 
 
 </web-app>

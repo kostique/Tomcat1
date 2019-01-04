@@ -13,6 +13,8 @@ public interface UserDAO {
 
     User getByUsername(String username);
 
+    User getById(long id);
+
     //update
     User update(User user);
 

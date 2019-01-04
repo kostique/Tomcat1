@@ -1,3 +1,4 @@
+import com.coreteka.entities.User;
 import org.junit.Test;
 
 public class SomeTest {
@@ -9,5 +10,9 @@ public class SomeTest {
         for(String pathBit: split){
             System.out.println(pathBit);
         }
+    }
+    private static void fillUserAttributes(User user) {
+        user.setLogin("_login_");
+        user.setPassword("_password_");
     }
 }

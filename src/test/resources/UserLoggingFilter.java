@@ -6,7 +6,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(filterName = "UserLoggingFilter", servletNames = "UserServlet")
+@WebFilter(filterName = "UserRequestLoggingFilter", servletNames = "UserServlet")
 public class UserLoggingFilter implements Filter {
     public void destroy() {
     }

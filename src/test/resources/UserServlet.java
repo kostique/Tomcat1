@@ -1,8 +1,6 @@
-package com.coreteka.servlets;
-
 import com.coreteka.entities.User;
-import com.coreteka.exceptions.InvalidUserAttributesException;
-import com.coreteka.exceptions.InvalidUserAttributesNumberException;
+import com.coreteka.exceptions.InvalidUserAttributeValueException;
+import com.coreteka.exceptions.InvalidUserAttributeNumberException;
 import com.coreteka.exceptions.UserAlreadyExistsException;
 import com.coreteka.exceptions.UserNotFoundException;
 import com.coreteka.service.UserService;
@@ -52,17 +50,18 @@ public class UserServlet extends HttpServlet {
 
         String pathInfo = request.getPathInfo();
 
-        PathException.check();
-        if (checkPath()) {
+//        PathException.check();
+//        if (checkPath())
+//        {
 
-        }
+ //       }
         if(pathInfo == null || pathInfo.equals("/")){
             try {
-                PathException.check();
+//                PathException.check();
                 User requestUser = getUserFromRequest(request);
                 User createdUser = userService.create(requestUser);
                 sendAsJson(response, createdUser);
-            } catch (UserAlreadyExistsException | InvalidUserAttributesNumberException | InvalidUserAttributesException bre) {
+            } catch (UserAlreadyExistsException | InvalidUserAttributeNumberException | InvalidUserAttributeValueException bre) {
                 sendResponseMessage(response, 400, bre.getMessage());
             }
         }
@@ -93,7 +92,7 @@ public class UserServlet extends HttpServlet {
 
         try {
             userService.update(databaseUser);
-        }catch (InvalidUserAttributesException bre){
+        }catch (InvalidUserAttributeValueException bre){
             sendResponseMessage(response, 400, bre.getMessage());
             return;
         }
@@ -152,7 +151,7 @@ public class UserServlet extends HttpServlet {
         }
 
         if (counter != 6){
-            throw new InvalidUserAttributesNumberException("Invalid user attributes number");
+            throw new InvalidUserAttributeNumberException("Invalid user attributes number");
         }
 
         String data = builder.toString();
@@ -167,5 +166,3 @@ public class UserServlet extends HttpServlet {
         out.flush();
     }
 }
-
-//      reader.lines().forEach(System.out::println);

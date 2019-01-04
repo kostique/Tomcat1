@@ -1,6 +1,8 @@
 package com.coreteka.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.util.Objects;
 
 @Entity
@@ -11,15 +13,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
     @Column(name = "username", unique = true)
     private String username;
 
+    @NotNull
     @Column(name = "login", unique = true)
     private String login;
 
+    @NotNull
     @Column(name = "password")
     private String password;
 
+    @NotNull
     @Column(name = "email", unique = true)
     private String email;
 

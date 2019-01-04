@@ -3,7 +3,7 @@ package com.coreteka.service.impl;
 import com.coreteka.dao.UserDAO;
 import com.coreteka.dao.impl.UserDAOImpl;
 import com.coreteka.entities.User;
-import com.coreteka.exceptions.InvalidUserAttributesException;
+import com.coreteka.exceptions.InvalidUserAttributeValueException;
 import com.coreteka.exceptions.UserAlreadyExistsException;
 import com.coreteka.exceptions.UserNotFoundException;
 import com.coreteka.service.UserService;
@@ -31,6 +31,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getById(long id){
+        User user = userDAO.getById(id);
+        if(user == null){
+            throw new UserNotFoundException("User not found.");
+        }
+        return user;
+    }
+
+    @Override
     public User getByUsername(String username){
         userDAO = new UserDAOImpl();
         if (!userDAO.isUserExist(username)) {
@@ -55,7 +64,7 @@ public class UserServiceImpl implements UserService {
             PersistenceUtil.commitTransaction();
         }catch (PersistenceException e) {
             PersistenceUtil.rollbackTransaction();
-            throw new InvalidUserAttributesException("Invalid user attributes");
+            throw new InvalidUserAttributeValueException("Invalid user attributes");
         }
         return updatedUser;
     }
