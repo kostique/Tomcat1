@@ -5,22 +5,21 @@ import com.coreteka.entities.User;
 import java.util.List;
 
 public interface UserDAO {
-    //create
-    User create(User user);
+    //save
+    User saveUser(User user);
 
     //read
-    List<User> getAllUsers();
+    List<User> getAll();
 
     User getByUsername(String username);
 
     User getById(long id);
 
-    //update
-    User update(User user);
-
     //delete
-    void delete(String username);
+    void delete(long id);
 
     boolean isUserExist(String username);
+
+    boolean isUserExist(long id);
 
 }

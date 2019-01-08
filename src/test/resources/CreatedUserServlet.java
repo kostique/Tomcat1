@@ -25,12 +25,12 @@ public class CreatedUserServlet extends HttpServlet {
         user.setPassword(request.getParameter("password"));
         user.setEmail(request.getParameter("email"));
 
-        //User createdUser = userService.create(user);
+        //User createdUser = userService.save(user);
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
 
 //        if (createdUser.equals(emptyUser)){
-//            out.println("<html><body><h3>Could not create user.</h3>");
+//            out.println("<html><body><h3>Could not save user.</h3>");
 //        } else {
 //            out.println("<html><body><h3>User created successfully</h3>");
 //        }
@@ -40,12 +40,12 @@ public class CreatedUserServlet extends HttpServlet {
 
 
 //        try {
-//            userService.create(user);
+//            userService.save(user);
 //        } catch (javax.persistence.PersistenceException pe){//todo
 //            pe.printStackTrace();
 //            PrintWriter out = response.getWriter();
 //            response.setContentType("text/html");
-//            out.println("<html><body><h3>Could not create user.</h3>");
+//            out.println("<html><body><h3>Could not save user.</h3>");
 //            out.println("<a href='home.html'>Back to main menu</a>");
 //            out.println("</body></html>");
 //            out.close();

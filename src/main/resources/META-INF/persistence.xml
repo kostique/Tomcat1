@@ -13,7 +13,7 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="validate"/>
-            <!--<property name="hibernate.hbm2ddl.auto" value="drop-and-create"/>-->
+            <!--<property name="hibernate.hbm2ddl.auto" value="drop-and-save"/>-->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
 
             <property name="hibernate.validator.apply_to_ddl" value="true"/>

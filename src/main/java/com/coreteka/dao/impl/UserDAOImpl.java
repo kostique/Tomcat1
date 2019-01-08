@@ -3,14 +3,12 @@ package com.coreteka.dao.impl;
 import com.coreteka.dao.UserDAO;
 import com.coreteka.entities.User;
 import com.coreteka.exceptions.DuplicateUserAttributeValueException;
-import com.coreteka.exceptions.InvalidUserAttributeValueException;
 import com.coreteka.exceptions.NullUserAttributeException;
+import com.coreteka.exceptions.UserNotFoundException;
 import com.coreteka.util.PersistenceUtil;
 
 
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
@@ -23,10 +21,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User create(User user) {
-        User createdUser;
+    public User saveUser(User user) {
+        User savedUser;
         try {
-            createdUser = PersistenceUtil.getEntityManager().merge(user);
+            savedUser = PersistenceUtil.getEntityManager().merge(user);
         } catch (PersistenceException e) {
             PersistenceUtil.rollbackTransaction();
             throw new DuplicateUserAttributeValueException("Duplicate user attribute value found.");
@@ -34,50 +32,48 @@ public class UserDAOImpl implements UserDAO {
             PersistenceUtil.rollbackTransaction();
             throw new NullUserAttributeException("Null user attribute found.");
         }
-        return createdUser;
+        return savedUser;
     }
 
     @Override
-    public List<User> getAllUsers() {
-        TypedQuery<User> query = PersistenceUtil.getEntityManager().createQuery("FROM User a", User.class);
+    public List<User> getAll() {
+        TypedQuery<User> query = PersistenceUtil.getEntityManager().createQuery("FROM User u", User.class);
         return query.getResultList();
     }
 
     @Override
     public User getByUsername(String username) {
+        User existingUser;
+        try {
             TypedQuery<User> query = PersistenceUtil.getEntityManager().
                     createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
-            return query.setParameter("username", username).getSingleResult();
-    }
-
-    @Override
-    public User update(User user) {
-        User updatedUser;
-        try{
-            updatedUser = PersistenceUtil.getEntityManager().merge(user);
-        }catch (PersistenceException e) {
-            PersistenceUtil.rollbackTransaction();
-            throw new InvalidUserAttributeValueException("Invalid user attributes");
+            existingUser = query.setParameter("username", username).getSingleResult();
+        } catch (NoResultException e) {
+            throw new UserNotFoundException("User not found.");
         }
-        return updatedUser;
+        return existingUser;
     }
 
     @Override
-    public void delete(String username) {
+    public void delete(long id) {
         Query query = PersistenceUtil.getEntityManager()
-                .createQuery("DELETE FROM User u WHERE u.username = :username");
-        query.setParameter("username", username).executeUpdate();
-
+                .createQuery("DELETE FROM User u WHERE u.id = :id");
+        query.setParameter("id", id).executeUpdate();
     }
 
-    public boolean isUserExist(String username) {
-        TypedQuery<Long> query = PersistenceUtil.getEntityManager()
-                .createQuery("SELECT COUNT(u) FROM User u WHERE u.username = :username", Long.class);
-        query.setParameter("username", username);
+    public boolean isUserExist(long id) {
+        TypedQuery<Long> query = PersistenceUtil.
+                getEntityManager().
+                createQuery("SELECT COUNT(u) FROM User u WHERE u.id = :id", Long.class);
+        query.setParameter("id", id);
+        return (query.getSingleResult() != 0L);
+    }
 
-        /*if query contains zero users, it means that DB has no user with
-         corresponded username thus method returns false
-          */
+    public boolean isUserExist(String username){
+        TypedQuery<Long> query = PersistenceUtil.
+                getEntityManager().
+                createQuery("SELECT COUNT(u) FROM User u WHERE u.username = :username", Long.class);
+        query.setParameter("username", username);
         return (query.getSingleResult() != 0L);
     }
 }

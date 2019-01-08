@@ -16,7 +16,7 @@
 
     <servlet>
         <servlet-name>UsersGetPostServlet</servlet-name>
-        <servlet-class>com.coreteka.servlets.UsersGetPostServlet</servlet-class>
+        <servlet-class>com.coreteka.servlets.UsersGetPostPutServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -26,7 +26,7 @@
 
     <servlet>
         <servlet-name>UsersGetPutDeleteServlet</servlet-name>
-        <servlet-class>com.coreteka.servlets.UsersGetPutDeleteServlet</servlet-class>
+        <servlet-class>com.coreteka.servlets.UsersGetDeleteServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

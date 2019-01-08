@@ -7,8 +7,6 @@ import java.util.List;
 public interface UserService {
 
     User create(User user);
-    
-    User getById(long id);
 
     User getByUsername(String name);
 
@@ -16,8 +14,6 @@ public interface UserService {
 
     User update(User user);
 
-    void delete(String username);
-
-
+    void delete(long id);
 
 }

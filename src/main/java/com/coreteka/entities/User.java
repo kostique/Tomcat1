@@ -10,6 +10,7 @@ import java.util.Objects;
 public class User {
 
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 

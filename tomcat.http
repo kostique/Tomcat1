@@ -7,6 +7,27 @@ Cache-Control: no-cache
 <> 2018-12-28T050358.200.json
 ###
 
+GET http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/
+Content-Type: text/html
+Accept: application/json
+Cache-Control: no-cache
+
+<> 2018-12-28T050733.200.json
+<> 2018-12-28T050640.200.json
+<> 2018-12-28T050358.200.json
+###
+
+
+GET http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/askor
+Content-Type: text/html
+Accept: application/json
+Cache-Control: no-cache
+
+<> 2018-12-28T050733.200.json
+<> 2018-12-28T050640.200.json
+<> 2018-12-28T050358.200.json
+###
+
 GET http://localhost:8080/Tomcat1/users/askor
 Accept: */*
 Cache-Control: no-cache
@@ -20,7 +41,19 @@ POST http://localhost:8080/Tomcat1/users/
 Accept: */*
 Cache-Control: no-cache
 
-{"username": "u1", "login": "u1", "password": "u1", "email": "u1@u1.org"}
+{"username": "rs17898898322", "login": null, "password": "rs1887yu", "email": "fgrs18@u18.org8"}
+
+<> 2018-12-28T050739.200.json
+<> 2018-12-28T050645.500.html
+###
+
+POST http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users
+Content-Type: application/json
+Accept: application/json
+Cache-Control: no-cache
+Accept-Datetime:
+
+{"username": "rs322", "login": "88bbdd88", "password": "r887yu", "email": "fg@u18.org47"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
@@ -31,18 +64,63 @@ Accept: */*
 Cache-Control: no-cache
 
 {
-  "username": "u1",
-  "login": "u2",
-  "password": "u2",
-  "email": "u2@u2.org"
+  "id": "325",
+  "username": "2u16sdf",
+  "login": "u2ss02",
+  "password": "2au20",
+  "email": "2ua02@u20.org"
+}
+
+
+
+<> 2018-12-28T050742.200.json
+
+###
+
+PUT http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users
+Content-Type: application/json
+Accept: application/json
+Cache-Control: no-cache
+
+{
+  "id": "325",
+  "username": null,
+  "login": null,
+  "password": null,
+  "email": null
 }
 
 <> 2018-12-28T050742.200.json
 
 ###
 
+PUT http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users
+Content-Type: application/json
+Accept: application/json
+Cache-Control: no-cache
+
+{
+  "id": "325",
+  "username": "sadf000",
+  "login": "s75",
+  "password": "swert43",
+  "email": "sdf11"
+}
+
+<> 2018-12-28T050742.200.json
+
+###
+
+
 DELETE http://localhost:8080/Tomcat1/users/u1
 Accept: */*
+Cache-Control: no-cache
+
+###
+
+DELETE http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/778885
+Content-Type: text/html
+Accept: application/json
 Cache-Control: no-cache
 
 {
