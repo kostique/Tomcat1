@@ -11,14 +11,14 @@ public interface UserDAO {
     //read
     List<User> getAll();
 
-    User getByUsername(String username);
+    User getByLogin(String login);
 
     User getById(long id);
 
     //delete
     void delete(long id);
 
-    boolean isUserExist(String username);
+    boolean isUserExist(String login);
 
     boolean isUserExist(long id);
 

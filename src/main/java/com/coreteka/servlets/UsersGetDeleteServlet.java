@@ -22,15 +22,14 @@ import java.util.List;
 public class UsersGetDeleteServlet extends HttpServlet {
 
     private UserService userService = new UserServiceImpl();
-    private ObjectMapper mapper = new ObjectMapper();
     private UserServletUtil userServletUtil = new UserServletUtil();
 
-    //GET/Tomcat/users/username
+    //GET/Tomcat/users/login
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            String username = userServletUtil.getPathVariable(request);
-            User user = userService.getByUsername(username);
-            userServletUtil.sendAsJson(response, user, mapper);
+            String login = userServletUtil.getPathVariable(request);
+            User user = userService.getByLogin(login);
+            userServletUtil.sendAsJson(response, user);
         } catch (UserNotFoundException | InvalidResourcePathVariable e){
             userServletUtil.sendResponseMessage(response, 404, e.getMessage());
         }

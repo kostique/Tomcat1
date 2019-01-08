@@ -42,12 +42,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getByUsername(String username) {
+    public User getByLogin(String login) {
         User existingUser;
         try {
             TypedQuery<User> query = PersistenceUtil.getEntityManager().
-                    createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
-            existingUser = query.setParameter("username", username).getSingleResult();
+                    createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
+            existingUser = query.setParameter("login", login).getSingleResult();
         } catch (NoResultException e) {
             throw new UserNotFoundException("User not found.");
         }
@@ -69,11 +69,11 @@ public class UserDAOImpl implements UserDAO {
         return (query.getSingleResult() != 0L);
     }
 
-    public boolean isUserExist(String username){
+    public boolean isUserExist(String login){
         TypedQuery<Long> query = PersistenceUtil.
                 getEntityManager().
-                createQuery("SELECT COUNT(u) FROM User u WHERE u.username = :username", Long.class);
-        query.setParameter("username", username);
+                createQuery("SELECT COUNT(u) FROM User u WHERE u.login = :login", Long.class);
+        query.setParameter("login", login);
         return (query.getSingleResult() != 0L);
     }
 }

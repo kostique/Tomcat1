@@ -21,22 +21,21 @@ import java.util.List;
 public class UsersGetPostPutServlet extends HttpServlet {
 
     private UserService userService = new UserServiceImpl();
-    private ObjectMapper mapper = new ObjectMapper();
     private UserServletUtil userServletUtil = new UserServletUtil();
 
     //GET/Tomcat/users
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
             List<User> allUsers = userService.getAll();
-            userServletUtil.sendAsJson(response, allUsers, mapper);
+            userServletUtil.sendAsJson(response, allUsers);
     }
 
     //POST/Tomcat/users
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         try {
-            User newUser = userServletUtil.getUserFromRequest(request, mapper);
+            User newUser = userServletUtil.getUserFromRequest(request);
             User createdUser = userService.create(newUser);
-            userServletUtil.sendAsJson(response, createdUser, mapper);
+            userServletUtil.sendAsJson(response, createdUser);
         } catch (UserAlreadyExistsException
                 | NullUserAttributeException
                 | DuplicateUserAttributeValueException
@@ -47,10 +46,10 @@ public class UsersGetPostPutServlet extends HttpServlet {
 
     //PUT/Tomcat/users
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        User updatingUser = userServletUtil.getUserFromRequest(request, mapper);
+        User updatingUser = userServletUtil.getUserFromRequest(request);
         try {
             userService.update(updatingUser);
-            userServletUtil.sendAsJson(response, updatingUser, mapper);
+            userServletUtil.sendAsJson(response, updatingUser);
         } catch (UserNotFoundException
                 | NullUserAttributeException
                 | DuplicateOrNullUserAttributeValueException

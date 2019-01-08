@@ -8,7 +8,6 @@ import com.coreteka.service.UserService;
 import com.coreteka.util.PersistenceUtil;
 
 import javax.persistence.PersistenceException;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 
@@ -28,8 +27,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByUsername(String username){
-        return userDAO.getByUsername(username);
+    public User getByLogin(String login){
+        return userDAO.getByLogin(login);
     }
 
     @Override

@@ -14,7 +14,9 @@ import java.io.PrintWriter;
 
 public class UserServletUtil {
 
-    public User getUserFromRequest(HttpServletRequest request, ObjectMapper mapper) throws IOException {
+    private ObjectMapper mapper = new ObjectMapper();
+
+    public User getUserFromRequest(HttpServletRequest request) throws IOException {
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
@@ -39,7 +41,7 @@ public class UserServletUtil {
         out.flush();
     }
 
-    public void sendAsJson(HttpServletResponse response, Object obj, ObjectMapper mapper) throws IOException {
+    public void sendAsJson(HttpServletResponse response, Object obj) throws IOException {
         response.setContentType("application/json");
         String res = mapper.writeValueAsString(obj);
         PrintWriter out = response.getWriter();
