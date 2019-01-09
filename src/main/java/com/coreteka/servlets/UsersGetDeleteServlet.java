@@ -5,18 +5,11 @@ import com.coreteka.exceptions.*;
 import com.coreteka.service.UserService;
 import com.coreteka.service.impl.UserServiceImpl;
 import com.coreteka.util.UserServletUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
-import com.google.gson.Gson;
 
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
 
 public class UsersGetDeleteServlet extends HttpServlet {
@@ -30,8 +23,10 @@ public class UsersGetDeleteServlet extends HttpServlet {
             String login = userServletUtil.getPathVariable(request);
             User user = userService.getByLogin(login);
             userServletUtil.sendAsJson(response, user);
-        } catch (UserNotFoundException | InvalidResourcePathVariable e){
+        } catch (UserNotFoundException e){
             userServletUtil.sendResponseMessage(response, 404, e.getMessage());
+        } catch (InvalidResourcePathVariable e){
+            userServletUtil.sendResponseMessage(response, 400, e.getMessage());
         }
     }
 

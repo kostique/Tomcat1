@@ -2,14 +2,8 @@ package com.coreteka.dao.impl;
 
 import com.coreteka.dao.UserDAO;
 import com.coreteka.entities.User;
-import com.coreteka.exceptions.DuplicateUserAttributeValueException;
-import com.coreteka.exceptions.NullUserAttributeException;
-import com.coreteka.exceptions.UserNotFoundException;
 import com.coreteka.util.PersistenceUtil;
-
-
 import javax.persistence.*;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 
@@ -22,17 +16,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User saveUser(User user) {
-        User savedUser;
-        try {
-            savedUser = PersistenceUtil.getEntityManager().merge(user);
-        } catch (PersistenceException e) {
-            PersistenceUtil.rollbackTransaction();
-            throw new DuplicateUserAttributeValueException("Duplicate user attribute value found.");
-        } catch (ConstraintViolationException e){
-            PersistenceUtil.rollbackTransaction();
-            throw new NullUserAttributeException("Null user attribute found.");
-        }
-        return savedUser;
+        return PersistenceUtil.getEntityManager().merge(user);
     }
 
     @Override
@@ -44,13 +28,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getByLogin(String login) {
         User existingUser;
-        try {
             TypedQuery<User> query = PersistenceUtil.getEntityManager().
                     createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
             existingUser = query.setParameter("login", login).getSingleResult();
-        } catch (NoResultException e) {
-            throw new UserNotFoundException("User not found.");
-        }
         return existingUser;
     }
 
@@ -61,19 +41,32 @@ public class UserDAOImpl implements UserDAO {
         query.setParameter("id", id).executeUpdate();
     }
 
-    public boolean isUserExist(long id) {
+    @Override
+    public boolean isEntryExist(String columnName, String value){
         TypedQuery<Long> query = PersistenceUtil.
                 getEntityManager().
-                createQuery("SELECT COUNT(u) FROM User u WHERE u.id = :id", Long.class);
-        query.setParameter("id", id);
+                createQuery("SELECT COUNT(u) FROM User u WHERE u." + columnName + " = :" + columnName, Long.class);
+        query.setParameter(columnName, value);
         return (query.getSingleResult() != 0L);
     }
 
-    public boolean isUserExist(String login){
+    @Override
+    public boolean isEntryExist(String columnName, long value){
         TypedQuery<Long> query = PersistenceUtil.
                 getEntityManager().
-                createQuery("SELECT COUNT(u) FROM User u WHERE u.login = :login", Long.class);
-        query.setParameter("login", login);
+                createQuery("SELECT COUNT(u) FROM User u WHERE u." + columnName + " = :" + columnName, Long.class);
+        query.setParameter(columnName, value);
+        return (query.getSingleResult() != 0L);
+    }
+
+    @Override
+    public boolean isEntryExist(String columnName, String value, long id){
+        String qlString = "SELECT COUNT(u) FROM User u WHERE u." + columnName + " = :" + columnName + " AND u.id != :id";
+        TypedQuery<Long> query = PersistenceUtil.
+                getEntityManager().
+                createQuery(qlString, Long.class);
+        query.setParameter(columnName, value);
+        query.setParameter("id", id);
         return (query.getSingleResult() != 0L);
     }
 }

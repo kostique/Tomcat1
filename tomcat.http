@@ -18,7 +18,7 @@ Cache-Control: no-cache
 ###
 
 
-GET http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/askor
+GET http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/cm
 Content-Type: text/html
 Accept: application/json
 Cache-Control: no-cache
@@ -41,7 +41,7 @@ POST http://localhost:8080/Tomcat1/users/
 Accept: */*
 Cache-Control: no-cache
 
-{"username": "rs17898898322", "login": null, "password": "rs1887yu", "email": "fgrs18@u18.org8"}
+{"username": "l21", "login": null, "password": "uy", "email": "uy18@u18.org8"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
@@ -53,7 +53,19 @@ Accept: application/json
 Cache-Control: no-cache
 Accept-Datetime:
 
-{"username": "rs322", "login": "88bbdd88", "password": "r887yu", "email": "fg@u18.org47"}
+{"username": "1jk13", "login": "1cm1", "password": "1r", "email": "18@1.o"}
+
+<> 2018-12-28T050739.200.json
+<> 2018-12-28T050645.500.html
+###
+
+POST http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users
+Content-Type: application/json
+Accept: application/json
+Cache-Control: no-cache
+Accept-Datetime:
+
+{"userman": "tr113", "login": "cm11348", "password": "r114", "email": "418@1.o"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
@@ -64,13 +76,12 @@ Accept: */*
 Cache-Control: no-cache
 
 {
-  "id": "325",
+  "id": "7",
   "username": "2u16sdf",
-  "login": "u2ss02",
+  "login": "c1m",
   "password": "2au20",
   "email": "2ua02@u20.org"
 }
-
 
 
 <> 2018-12-28T050742.200.json
@@ -83,7 +94,26 @@ Accept: application/json
 Cache-Control: no-cache
 
 {
-  "id": "325",
+  "idshka": "7",
+  "username": "2u16sdf",
+  "login": "c1m",
+  "password": "2au20",
+  "email": "2ua02@u20.org"
+}
+
+
+<> 2018-12-28T050742.200.json
+
+###
+
+
+PUT http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users
+Content-Type: application/json
+Accept: application/json
+Cache-Control: no-cache
+
+{
+  "id": "2",
   "username": null,
   "login": null,
   "password": null,
@@ -100,11 +130,11 @@ Accept: application/json
 Cache-Control: no-cache
 
 {
-  "id": "325",
-  "username": "sadf000",
-  "login": "s75",
-  "password": "swert43",
-  "email": "sdf11"
+  "id": "4",
+  "username": "askor",
+  "login": "4525254",
+  "password": "qsw345345ertw43",
+  "email": "qsdf453453411w4"
 }
 
 <> 2018-12-28T050742.200.json
