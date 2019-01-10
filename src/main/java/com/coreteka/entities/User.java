@@ -2,7 +2,6 @@ package com.coreteka.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 import java.util.Objects;
 
 @Entity
@@ -10,9 +9,8 @@ import java.util.Objects;
 public class User {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotNull
     @Column(name = "username")

@@ -18,7 +18,7 @@ Cache-Control: no-cache
 ###
 
 
-GET http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/cm
+GET http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/sscm75
 Content-Type: text/html
 Accept: application/json
 Cache-Control: no-cache
@@ -41,7 +41,7 @@ POST http://localhost:8080/Tomcat1/users/
 Accept: */*
 Cache-Control: no-cache
 
-{"username": "l21", "login": null, "password": "uy", "email": "uy18@u18.org8"}
+{"username": null, "login": null, "password": "uy", "email": "uy118@u18.org8"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
@@ -53,7 +53,7 @@ Accept: application/json
 Cache-Control: no-cache
 Accept-Datetime:
 
-{"username": "s3", "login": "sscm71", "password": "71r", "email": "ss8d@1.org"}
+{"username": "844m8", "login": "544m7", "password": "544m7r", "email": "s5s4@74m8og"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
@@ -65,7 +65,7 @@ Accept: application/json
 Cache-Control: no-cache
 Accept-Datetime:
 
-{"userman": "7t1r113", "login": "c8m111348", "password": "r1114", "email": "4118@1.o"}
+{"username": "asdf", "userman": "7t1r113", "login": "c48", "password": "r1114", "email": "41@1"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
@@ -76,7 +76,7 @@ Accept: */*
 Cache-Control: no-cache
 
 {
-  "id": "72",
+  "id": "2",
   "username": "2usdf",
   "login": "c1m",
   "password": "2u20",

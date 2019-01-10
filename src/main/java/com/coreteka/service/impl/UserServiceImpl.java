@@ -6,7 +6,11 @@ import com.coreteka.entities.User;
 import com.coreteka.exceptions.*;
 import com.coreteka.service.UserService;
 import com.coreteka.util.PersistenceUtil;
+import com.coreteka.util.ValidationUtil;
+
+import javax.validation.*;
 import java.util.List;
+import java.util.Set;
 
 
 public class UserServiceImpl implements UserService {
@@ -38,11 +42,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(User user) {
         validateUserBeforeUpdate(user);
+
         User existingUser = userDAO.getById(user.getId());
+
         copyUpdatingFields(user, existingUser);
+
         PersistenceUtil.beginTransaction();
         User updatedUser = userDAO.saveUser(user);
         PersistenceUtil.commitTransaction();
+
         return updatedUser;
     }
 
@@ -57,9 +65,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private void validateUserBeforeCreate(User user){
-        if (isUserContainNullAttributeValue(user)){
-            throw new NullUserAttributeValueException("Null user attribute found.");
-        }
+        validateUserForNullFields(user);
+
         if (userDAO.isUserExist("email", user.getEmail())){
             throw new DuplicateUserAttributeValueException("Email already exists.");
         }
@@ -68,30 +75,28 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private void  validateUserBeforeUpdate (User user){
+    private void validateUserBeforeUpdate (User user){
+        validateUserForNullFields(user);
         long id = user.getId();
 
         if (!userDAO.isUserExist("id", user.getId())){
             throw new UserNotFoundException("User not found.");
-        }
-        if (isUserContainNullAttributeValue(user)){
-            throw new NullUserAttributeValueException("Null user attribute value found.");
         }
         if (userDAO.isUserExist("email", user.getEmail(), id)){
             throw new DuplicateUserAttributeValueException("Email already exists.");
         }
     }
 
-    private boolean isUserContainNullAttributeValue(User requestUser){
-        return requestUser.getLogin() == null
-                || requestUser.getPassword() == null
-                || requestUser.getEmail() == null
-                || requestUser.getUsername() == null;
-    }
-
     private void copyUpdatingFields(User user, User existingUser){
         existingUser.setUsername(user.getUsername());
         existingUser.setPassword(user.getPassword());
         existingUser.setEmail(user.getEmail());
+    }
+
+    private void validateUserForNullFields(User user){
+        Set<ConstraintViolation<User>> constraintViolations = ValidationUtil.getValidator().validate(user);
+        if(constraintViolations.size() > 0) {
+            throw new NullUserAttributeValueException("Null user attribute value found.");
+        }
     }
 }

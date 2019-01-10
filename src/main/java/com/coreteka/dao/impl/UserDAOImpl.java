@@ -3,6 +3,7 @@ package com.coreteka.dao.impl;
 import com.coreteka.dao.UserDAO;
 import com.coreteka.entities.User;
 import com.coreteka.util.PersistenceUtil;
+
 import javax.persistence.*;
 import java.util.List;
 

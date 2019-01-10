@@ -32,7 +32,7 @@
       <IntrospectionStateNumber>505</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
-      <Relations>sequence|table|25588|25590|1
+      <Relations>sequence|table|25712|25714|1
 </Relations>
     </database>
     <role id="7" parent="1" name="kostique">
@@ -109,8 +109,8 @@
       <Comment>standard public schema</Comment>
       <StateNumber>351</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionTimestamp>2018-12-18.12:37:56.836</IntrospectionTimestamp>
-      <IntrospectionStateNumber>107933</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2019-01-10.11:18:20.189</IntrospectionTimestamp>
+      <IntrospectionStateNumber>108516</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -171,90 +171,84 @@
       <SchemaId>11</SchemaId>
     </extension>
     <sequence id="27" parent="19" name="t_user_id_seq">
-      <ObjectId>25588</ObjectId>
+      <ObjectId>25712</ObjectId>
       <Owner>kostique</Owner>
-      <StateNumber>107841</StateNumber>
+      <StateNumber>108510</StateNumber>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint</DataType>
     </sequence>
     <table id="28" parent="19" name="t_user">
-      <ObjectId>25590</ObjectId>
+      <ObjectId>25714</ObjectId>
       <Owner>kostique</Owner>
-      <StateNumber>107841</StateNumber>
+      <StateNumber>108510</StateNumber>
     </table>
     <column id="29" parent="28" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>107841</StateNumber>
+      <StateNumber>108510</StateNumber>
       <DefaultExpression>nextval(&apos;t_user_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
     <column id="30" parent="28" name="email">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>107841</StateNumber>
+      <StateNumber>108513</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="31" parent="28" name="login">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>107841</StateNumber>
+      <StateNumber>108514</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="32" parent="28" name="password">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>107841</StateNumber>
+      <StateNumber>108515</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="33" parent="28" name="username">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>107841</StateNumber>
+      <StateNumber>108516</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <index id="34" parent="28" name="t_user_pkey">
-      <ObjectId>25597</ObjectId>
-      <StateNumber>107841</StateNumber>
+      <ObjectId>25721</ObjectId>
+      <StateNumber>108510</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
     <index id="35" parent="28" name="uk_i6qjjoe560mee5ajdg7v1o6mi">
-      <ObjectId>25599</ObjectId>
-      <StateNumber>107842</StateNumber>
+      <ObjectId>25723</ObjectId>
+      <StateNumber>108511</StateNumber>
       <ColNames>email</ColNames>
       <Unique>1</Unique>
     </index>
     <index id="36" parent="28" name="uk_7gshuknepkj6oy1702fqwsr8r">
-      <ObjectId>25601</ObjectId>
-      <StateNumber>107843</StateNumber>
+      <ObjectId>25725</ObjectId>
+      <StateNumber>108512</StateNumber>
       <ColNames>login</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="37" parent="28" name="t_user_username_uindex">
-      <ObjectId>25605</ObjectId>
-      <StateNumber>107933</StateNumber>
-      <ColNames>username</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <key id="38" parent="28" name="t_user_pkey">
-      <ObjectId>25598</ObjectId>
-      <StateNumber>107841</StateNumber>
+    <key id="37" parent="28" name="t_user_pkey">
+      <ObjectId>25722</ObjectId>
+      <StateNumber>108510</StateNumber>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>t_user_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <key id="39" parent="28" name="uk_i6qjjoe560mee5ajdg7v1o6mi">
-      <ObjectId>25600</ObjectId>
-      <StateNumber>107842</StateNumber>
+    <key id="38" parent="28" name="uk_i6qjjoe560mee5ajdg7v1o6mi">
+      <ObjectId>25724</ObjectId>
+      <StateNumber>108511</StateNumber>
       <ColNames>email</ColNames>
       <UnderlyingIndexName>uk_i6qjjoe560mee5ajdg7v1o6mi</UnderlyingIndexName>
     </key>
-    <key id="40" parent="28" name="uk_7gshuknepkj6oy1702fqwsr8r">
-      <ObjectId>25602</ObjectId>
-      <StateNumber>107843</StateNumber>
+    <key id="39" parent="28" name="uk_7gshuknepkj6oy1702fqwsr8r">
+      <ObjectId>25726</ObjectId>
+      <StateNumber>108512</StateNumber>
       <ColNames>login</ColNames>
       <UnderlyingIndexName>uk_7gshuknepkj6oy1702fqwsr8r</UnderlyingIndexName>
     </key>
