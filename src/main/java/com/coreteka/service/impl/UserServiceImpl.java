@@ -15,9 +15,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        if(!isUserValidForCreating(user)){
-            throw new InvalidUserAttributeValueException("Invalid user attribute value found.");
-        }
+        validateUserBeforeCreate(user);
         PersistenceUtil.beginTransaction();
         User createdUser = userDAO.saveUser(user);
         PersistenceUtil.commitTransaction();
@@ -26,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByLogin(String login){
-        if (!userDAO.isEntryExist("login", login)){
+        if (!userDAO.isUserExist("login", login)){
             throw new UserNotFoundException("User not found.");
         }
         return userDAO.getByLogin(login);
@@ -39,17 +37,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        isUserValidForUpdating(user);
-        User updatedUser;
+        validateUserBeforeUpdate(user);
+        User existingUser = userDAO.getById(user.getId());
+        copyUpdatingFields(user, existingUser);
         PersistenceUtil.beginTransaction();
-        updatedUser = userDAO.saveUser(user);
+        User updatedUser = userDAO.saveUser(user);
         PersistenceUtil.commitTransaction();
         return updatedUser;
     }
 
     @Override
     public void delete(long id) {
-        if (!userDAO.isEntryExist("id", id)) {
+        if (!userDAO.isUserExist("id", id)) {
             throw new UserNotFoundException("User not found.");
         }
         PersistenceUtil.beginTransaction();
@@ -57,34 +56,29 @@ public class UserServiceImpl implements UserService {
         PersistenceUtil.commitTransaction();
     }
 
-    private boolean isUserValidForCreating(User user){
-        return (!userDAO.isEntryExist("id", user.getId())
-                && !isUserContainNullAttributeValue(user)
-                && !userDAO.isEntryExist("login", user.getLogin())
-                && !userDAO.isEntryExist("email", user.getEmail()));
-    }
-
-//    private boolean isUserValidForUpdating(User user){
-//        long id = user.getId();
-//        return (userDAO.isEntryExist("id", user.getId())
-//                && !isUserContainNullAttributeValue(user)
-//                && !userDAO.isEntryExist("login", user.getLogin(), id)
-//                && !userDAO.isEntryExist("email", user.getEmail(), id));
-//    }
-
-    private void isUserValidForUpdating (User user){
-        long id = user.getId();
-        if (userDAO.isEntryExist("id", user.getId())){
-            throw new UserNotFoundException("User not found.");
-        }
-        if (!isUserContainNullAttributeValue(user)){
+    private void validateUserBeforeCreate(User user){
+        if (isUserContainNullAttributeValue(user)){
             throw new NullUserAttributeValueException("Null user attribute found.");
         }
-        if (userDAO.isEntryExist("login", user.getLogin(), id)){
-            throw new DuplicateUserAttributeValueException("Duplicate user attribute value found.");
+        if (userDAO.isUserExist("email", user.getEmail())){
+            throw new DuplicateUserAttributeValueException("Email already exists.");
         }
-        if (userDAO.isEntryExist("email", user.getEmail(), id)){
-            throw new DuplicateUserAttributeValueException("Duplicate user attribute value found.");
+        if (userDAO.isUserExist("login", user.getLogin())){
+            throw new DuplicateUserAttributeValueException("Login already exists.");
+        }
+    }
+
+    private void  validateUserBeforeUpdate (User user){
+        long id = user.getId();
+
+        if (!userDAO.isUserExist("id", user.getId())){
+            throw new UserNotFoundException("User not found.");
+        }
+        if (isUserContainNullAttributeValue(user)){
+            throw new NullUserAttributeValueException("Null user attribute value found.");
+        }
+        if (userDAO.isUserExist("email", user.getEmail(), id)){
+            throw new DuplicateUserAttributeValueException("Email already exists.");
         }
     }
 
@@ -95,4 +89,9 @@ public class UserServiceImpl implements UserService {
                 || requestUser.getUsername() == null;
     }
 
+    private void copyUpdatingFields(User user, User existingUser){
+        existingUser.setUsername(user.getUsername());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setEmail(user.getEmail());
+    }
 }

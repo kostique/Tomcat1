@@ -19,7 +19,7 @@ public class SomeTest {
 
     @Test
     public void checkUserAttributes() {
-        //System.out.println(isEntryExist("username", "askor"));
+        //System.out.println(isUserExist("username", "askor"));
         System.out.println(isEntryExist("login", "u1", 317));
 
     }

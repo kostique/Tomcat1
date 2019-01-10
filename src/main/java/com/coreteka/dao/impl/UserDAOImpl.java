@@ -42,7 +42,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean isEntryExist(String columnName, String value){
+    public boolean isUserExist(String columnName, String value){
         TypedQuery<Long> query = PersistenceUtil.
                 getEntityManager().
                 createQuery("SELECT COUNT(u) FROM User u WHERE u." + columnName + " = :" + columnName, Long.class);
@@ -51,7 +51,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean isEntryExist(String columnName, long value){
+    public boolean isUserExist(String columnName, long value){
         TypedQuery<Long> query = PersistenceUtil.
                 getEntityManager().
                 createQuery("SELECT COUNT(u) FROM User u WHERE u." + columnName + " = :" + columnName, Long.class);
@@ -60,7 +60,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean isEntryExist(String columnName, String value, long id){
+    public boolean isUserExist(String columnName, String value, long id){
         String qlString = "SELECT COUNT(u) FROM User u WHERE u." + columnName + " = :" + columnName + " AND u.id != :id";
         TypedQuery<Long> query = PersistenceUtil.
                 getEntityManager().

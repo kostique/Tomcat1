@@ -18,10 +18,10 @@ public interface UserDAO {
     //delete
     void delete(long id);
 
-    boolean isEntryExist(String columnName, String value);
+    boolean isUserExist(String columnName, String value);
 
-    boolean isEntryExist(String columnName, long value);
+    boolean isUserExist(String columnName, long value);
 
-    boolean isEntryExist(String columnName, String value, long id);
+    boolean isUserExist(String columnName, String value, long id);
 
 }

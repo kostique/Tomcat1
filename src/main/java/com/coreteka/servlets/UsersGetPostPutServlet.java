@@ -30,7 +30,9 @@ public class UsersGetPostPutServlet extends HttpServlet {
             User newUser = userServletUtil.getUserFromRequest(request);
             User createdUser = userService.create(newUser);
             userServletUtil.sendAsJson(response, createdUser);
-        } catch (InvalidUserAttributeValueException | InvalidUserAttributeNameException e) {
+        } catch ( InvalidUserAttributeNameException
+                | DuplicateUserAttributeValueException
+                | NullUserAttributeValueException e ) {
             userServletUtil.sendResponseMessage(response, 400, e.getMessage());
         }
     }
@@ -41,7 +43,10 @@ public class UsersGetPostPutServlet extends HttpServlet {
             User updatingUser = userServletUtil.getUserFromRequest(request);
             userService.update(updatingUser);
             userServletUtil.sendAsJson(response, updatingUser);
-        } catch (InvalidUserAttributeValueException | InvalidUserAttributeNameException e) {
+        } catch ( InvalidUserAttributeNameException
+                | UserNotFoundException
+                | NullUserAttributeValueException
+                | DuplicateUserAttributeValueException e ) {
             userServletUtil.sendResponseMessage(response, 400, e.getMessage());
         }
     }

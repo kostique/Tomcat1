@@ -53,7 +53,7 @@ Accept: application/json
 Cache-Control: no-cache
 Accept-Datetime:
 
-{"username": "1jk13", "login": "1cm1", "password": "1r", "email": "18@1.o"}
+{"username": "s3", "login": "sscm71", "password": "71r", "email": "ss8d@1.org"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
@@ -65,7 +65,7 @@ Accept: application/json
 Cache-Control: no-cache
 Accept-Datetime:
 
-{"userman": "tr113", "login": "cm11348", "password": "r114", "email": "418@1.o"}
+{"userman": "7t1r113", "login": "c8m111348", "password": "r1114", "email": "4118@1.o"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
@@ -76,11 +76,11 @@ Accept: */*
 Cache-Control: no-cache
 
 {
-  "id": "7",
-  "username": "2u16sdf",
+  "id": "72",
+  "username": "2usdf",
   "login": "c1m",
-  "password": "2au20",
-  "email": "2ua02@u20.org"
+  "password": "2u20",
+  "email": "2ua@u20.org"
 }
 
 
@@ -141,6 +141,12 @@ Cache-Control: no-cache
 
 ###
 
+DELETE http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/
+Content-Type: text/html
+Accept: application/json
+Cache-Control: no-cache
+
+###
 
 DELETE http://localhost:8080/Tomcat1/users/u1
 Accept: */*
