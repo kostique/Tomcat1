@@ -16,6 +16,7 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO = new UserDAOImpl();
+    private StringBuffer messageBuffer = new StringBuffer();
 
     @Override
     public User create(User user) {
@@ -96,7 +97,21 @@ public class UserServiceImpl implements UserService {
     private void validateUserForNullFields(User user){
         Set<ConstraintViolation<User>> constraintViolations = ValidationUtil.getValidator().validate(user);
         if(constraintViolations.size() > 0) {
-            throw new NullUserAttributeValueException("Null user attribute value found.");
+            String header = "Constraint violations found at: \n";
+            messageBuffer.setLength(0);
+            messageBuffer.append(header);
+            constraintViolations
+                    .stream()
+                    .map(this::composeMessage)
+                    .forEach(message -> messageBuffer.append(message));
+            throw new ConstraintViolationFoundException(messageBuffer.toString());
         }
+    }
+
+    private StringBuffer composeMessage(ConstraintViolation<User> userConstraintViolation){
+        String propertyPath = userConstraintViolation.getPropertyPath().toString() + ": ";
+        String value = userConstraintViolation.getInvalidValue() + "  ";
+        String constraintMessage = "(" + userConstraintViolation.getMessage() + ")\n";
+        return (new StringBuffer().append(propertyPath).append(value).append(constraintMessage));
     }
 }

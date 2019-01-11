@@ -1,11 +1,14 @@
-
-    /*  PathException.check(); todo
-        if (checkPath())
-        {}
-        PathException.check();  */
+TODO
 
 
+10.01.19.
 
-/* todo multiple returns in service methods*/
+GeneratingStrategy
+MapEntry - Maps Sets
+Когда и как генерируется в базе Id
+ValidateUser сделать для всех констреинтов (NotNull и пр), validateForConstraints
+Проверить как юзер работает с Лонгом вместо лонга.
+Добавить супер exception для трех кастомных иксепшЫнов
+ValidationUtil.validate(T) сделать с джЫнериками
+Mapper должен мапить любой json, находить в нем валидные атрибуты, а лишние сеттить в null
 
-/* todo request params*/

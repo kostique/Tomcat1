@@ -5,6 +5,7 @@ import com.coreteka.exceptions.*;
 import com.coreteka.service.UserService;
 import com.coreteka.service.impl.UserServiceImpl;
 import com.coreteka.util.UserServletUtil;
+import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +31,7 @@ public class UsersGetPostPutServlet extends HttpServlet {
             User newUser = userServletUtil.getUserFromRequest(request);
             User createdUser = userService.create(newUser);
             userServletUtil.sendAsJson(response, createdUser);
-        } catch ( InvalidUserAttributeNameException
-                | DuplicateUserAttributeValueException
-                | NullUserAttributeValueException e ) {
+        } catch (InvalidUserRequestDataException e ) {
             userServletUtil.sendResponseMessage(response, 400, e.getMessage());
         }
     }
@@ -43,10 +42,7 @@ public class UsersGetPostPutServlet extends HttpServlet {
             User updatingUser = userServletUtil.getUserFromRequest(request);
             userService.update(updatingUser);
             userServletUtil.sendAsJson(response, updatingUser);
-        } catch ( InvalidUserAttributeNameException
-                | UserNotFoundException
-                | NullUserAttributeValueException
-                | DuplicateUserAttributeValueException e ) {
+        } catch (InvalidUserRequestDataException e) {
             userServletUtil.sendResponseMessage(response, 400, e.getMessage());
         }
     }

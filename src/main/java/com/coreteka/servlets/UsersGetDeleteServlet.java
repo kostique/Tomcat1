@@ -23,9 +23,7 @@ public class UsersGetDeleteServlet extends HttpServlet {
             String login = userServletUtil.getPathVariable(request);
             User user = userService.getByLogin(login);
             userServletUtil.sendAsJson(response, user);
-        } catch (UserNotFoundException e) {
-            userServletUtil.sendResponseMessage(response, 404, e.getMessage());
-        } catch (InvalidResourcePathVariable e) {
+        } catch (InvalidUserRequestDataException e) {
             userServletUtil.sendResponseMessage(response, 400, e.getMessage());
         }
     }
@@ -36,9 +34,7 @@ public class UsersGetDeleteServlet extends HttpServlet {
             long id = Long.valueOf(userServletUtil.getPathVariable(request));
             userService.delete(id);
             userServletUtil.sendResponseMessage(response, 200, "User deleted successfully.");
-        } catch (UserNotFoundException e) {
-            userServletUtil.sendResponseMessage(response, 404, e.getMessage());
-        } catch (InvalidResourcePathVariable e) {
+        } catch (InvalidUserRequestDataException e) {
             userServletUtil.sendResponseMessage(response, 400, e.getMessage());
         }
     }
