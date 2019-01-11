@@ -1,10 +1,11 @@
 package com.coreteka.servlets;
 
 import com.coreteka.entities.User;
-import com.coreteka.exceptions.*;
+import com.coreteka.exceptions.InvalidUserRequestDataException;
 import com.coreteka.service.UserService;
 import com.coreteka.service.impl.UserServiceImpl;
 import com.coreteka.util.UserServletUtil;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

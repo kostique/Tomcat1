@@ -4,7 +4,8 @@ import com.coreteka.dao.UserDAO;
 import com.coreteka.entities.User;
 import com.coreteka.util.PersistenceUtil;
 
-import javax.persistence.*;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 

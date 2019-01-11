@@ -1,6 +1,3 @@
-import com.coreteka.dao.UserDAO;
-import com.coreteka.dao.impl.UserDAOImpl;
-import com.coreteka.entities.User;
 import com.coreteka.util.PersistenceUtil;
 import org.junit.Test;
 

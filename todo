@@ -6,9 +6,9 @@ TODO
 GeneratingStrategy
 MapEntry - Maps Sets
 Когда и как генерируется в базе Id
-ValidateUser сделать для всех констреинтов (NotNull и пр), validateForConstraints
++  ValidateUser сделать для всех констреинтов (NotNull и пр), validateForConstraints
 Проверить как юзер работает с Лонгом вместо лонга.
-Добавить супер exception для трех кастомных иксепшЫнов
-ValidationUtil.validate(T) сделать с джЫнериками
++ Добавить супер exception для трех кастомных иксепшЫнов
++ ValidationUtil.validate(T) сделать с джЫнериками
 Mapper должен мапить любой json, находить в нем валидные атрибуты, а лишние сеттить в null
 

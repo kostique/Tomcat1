@@ -3,10 +3,12 @@ package com.coreteka.service.impl;
 import com.coreteka.dao.UserDAO;
 import com.coreteka.dao.impl.UserDAOImpl;
 import com.coreteka.entities.User;
-import com.coreteka.exceptions.*;
+import com.coreteka.exceptions.DuplicateUserAttributeValueException;
+import com.coreteka.exceptions.UserNotFoundException;
 import com.coreteka.service.UserService;
 import com.coreteka.util.PersistenceUtil;
 import com.coreteka.util.ValidationUtil;
+
 import java.util.List;
 
 

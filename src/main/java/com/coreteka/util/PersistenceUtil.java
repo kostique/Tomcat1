@@ -1,9 +1,9 @@
 package com.coreteka.util;
 
-import com.coreteka.exceptions.NullUserAttributeValueException;
-
-import javax.persistence.*;
-import javax.validation.ConstraintViolationException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 public class PersistenceUtil {
 

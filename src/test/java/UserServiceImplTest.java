@@ -1,16 +1,7 @@
-import com.coreteka.dao.UserDAO;
-import com.coreteka.dao.impl.UserDAOImpl;
 import com.coreteka.entities.User;
-import com.coreteka.exceptions.InvalidUserAttributeValueException;
 import com.coreteka.service.UserService;
 import com.coreteka.service.impl.UserServiceImpl;
-import com.coreteka.util.PersistenceUtil;
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 
 public class UserServiceImplTest {

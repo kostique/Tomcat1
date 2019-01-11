@@ -65,11 +65,24 @@ Accept: application/json
 Cache-Control: no-cache
 Accept-Datetime:
 
-{"username": "asdf", "userman": "7t1r113", "login": "c48", "password": "r1114", "email": "41@1"}
+{"userman": "a5", "username": "7g3", "login": "c4g8", "password": "rg24", "email": "21@2"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
 ###
+
+POST http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users
+Content-Type: application/json
+Accept: application/json
+Cache-Control: no-cache
+Accept-Datetime:
+
+{}
+
+<> 2018-12-28T050739.200.json
+<> 2018-12-28T050645.500.html
+###
+
 
 PUT http://localhost:8080/Tomcat1/users/u1
 Accept: */*

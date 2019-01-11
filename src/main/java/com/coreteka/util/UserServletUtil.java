@@ -2,9 +2,8 @@ package com.coreteka.util;
 
 import com.coreteka.entities.User;
 import com.coreteka.exceptions.InvalidResourcePathVariable;
-import com.coreteka.exceptions.InvalidUserAttributeNameException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +14,9 @@ import java.io.PrintWriter;
 public class UserServletUtil {
 
     private ObjectMapper mapper = new ObjectMapper();
+    {
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
 
     public User getUserFromRequest(HttpServletRequest request) throws IOException {
         StringBuilder builder = new StringBuilder();
@@ -25,11 +27,7 @@ public class UserServletUtil {
         }
         String data = builder.toString();
         User requestUser;
-        try {
-            requestUser = mapper.readValue(data, User.class);
-        } catch (UnrecognizedPropertyException e){
-            throw new InvalidUserAttributeNameException("Invalid user attribute name.");
-        }
+        requestUser = mapper.readValue(data, User.class);
         return requestUser;
     }
 
