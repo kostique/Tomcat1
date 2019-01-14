@@ -18,7 +18,7 @@ Cache-Control: no-cache
 ###
 
 
-GET http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/sscm75
+GET http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/sc75
 Content-Type: text/html
 Accept: application/json
 Cache-Control: no-cache
@@ -53,7 +53,7 @@ Accept: application/json
 Cache-Control: no-cache
 Accept-Datetime:
 
-{"username": "4m8", "login": "4m67", "password": "4m7", "email": "s65@g"}
+{"username": "4m805", "login": "543m670", "password": "4m745368", "email": "5s365@gty"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
@@ -65,7 +65,19 @@ Accept: application/json
 Cache-Control: no-cache
 Accept-Datetime:
 
-{"userman": "a5", "username": "7g3", "login": "c4g8", "password": "rg24", "email": "21@2"}
+{"username": "4m80", "login": "4m670", "password": null, "email": "s65@gty"}
+
+<> 2018-12-28T050739.200.json
+<> 2018-12-28T050645.500.html
+###
+
+POST http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users
+Content-Type: application/json
+Accept: application/json
+Cache-Control: no-cache
+Accept-Datetime:
+
+{"userman": "izya", "perelman": "moisha", "username": "8m3", "login": "c5tp", "password": "8t874587", "email": "w54@org"}
 
 <> 2018-12-28T050739.200.json
 <> 2018-12-28T050645.500.html
@@ -167,9 +179,9 @@ Cache-Control: no-cache
 
 ###
 
-DELETE http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/778885
+DELETE http://localhost:8080/Tomcat1-1.0-SNAPSHOT/users/7
 Content-Type: text/html
-Accept: application/json
+Accept: text/html
 Cache-Control: no-cache
 
 {

@@ -2,6 +2,7 @@ package com.coreteka.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +22,7 @@ public class User {
     private String login;
 
     @NotNull
+    @Size(min = 6, max = 24)
     @Column(name = "password")
     private String password;
 

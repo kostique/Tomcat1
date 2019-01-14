@@ -1,5 +1,4 @@
 package com.coreteka.servlets;
-
 import com.coreteka.entities.User;
 import com.coreteka.exceptions.InvalidUserRequestDataException;
 import com.coreteka.service.UserService;
